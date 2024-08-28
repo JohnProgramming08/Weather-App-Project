@@ -121,10 +121,19 @@ class App(ctk.CTk):
         self.intro_page = IntroPage(self)
         self.intro_page.pack()
         self.weather_page = WeatherPage(self)
-        self.mainloop()
 
     def change_page(self):
         self.intro_page.pack_forget()
         self.weather_page.pack()
+
+    # Display an error message to the user
+    def show_error(self, message):
+        self.error_window = ctk.CTkToplevel(fg_color="red")
+        self.error_window.title("Error")
+        self.error_window._fg_color
+        self.error_message = ctk.CTkLabel(self.error_window, text=message)
+        self.error_message.pack()
+        self.error_window.mainloop()
+
         
 

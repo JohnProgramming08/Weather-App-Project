@@ -1,8 +1,12 @@
 from display import App
-import customtkinter as ctk
+from intro_function import sign_up
 
 # Testing Purposes
 def main():
-    root = App()
+    app = App()
+    app.intro_page.sign_up_button.configure(command=lambda: sign_up(app))
+    app.mainloop()
 
-main()
+if __name__ == "__main__":
+    main()
+    
