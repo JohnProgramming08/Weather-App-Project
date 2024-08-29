@@ -28,3 +28,22 @@ def sign_up(app):
         app.change_page()
     
     connection.close()
+
+def sign_in(app):
+    username = app.intro_page.username_entry1.get()
+    password = app.intro_page.password_entry1.get()
+
+    # Connect to the database
+    connection = sqlite3.connect("weather_app.db")
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+    user = cursor.fetchone()
+    # Display an error message if the details are invalid
+    if user:
+        app.change_page()
+
+    else:
+        app.show_error("Invalid username or password")
+
+    connection.close()
