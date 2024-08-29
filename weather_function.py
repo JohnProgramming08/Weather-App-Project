@@ -3,29 +3,30 @@ import requests
 
 def get_weather(app):
     # Connect to the API
-    try:
-        base_url = "https://api.openweathermap.org/data/2.5/weather?"
-        api_key = "f35a67974062073a04ab60d09446e6e6"
-        city = app.weather_page.city_entry.get()
-
-        url = base_url + "appid=" + api_key + "&q=" + city
-        response = requests.get(url).json()
     
-    except:
-        app.show_error("City not found")
+    base_url = "https://api.openweathermap.org/data/2.5/weather?"
+    api_key = "f35a67974062073a04ab60d09446e6e6"
+    city = app.weather_page.city_entry.get()
+
+    url = base_url + "appid=" + api_key + "&q=" + city
+    response = requests.get(url).json()
 
     def celsius(kelvin):
         return round(kelvin - 273.15)
 
     # Declare all the variables for weather information
-    temperature = celsius(response["main"]["temp"])
-    feels_like = celsius(response["main"]["feels_like"])
-    wind_speed = response["wind"]["speed"]
-    humidity = response["main"]["humidity"]
-    description = response["weather"][0]["description"]
-    sunrise_time = dt.datetime.fromtimestamp(response["sys"]["sunrise"])
-    sunset_time = dt.datetime.fromtimestamp(response["sys"]["sunset"])
-
+    try:
+        temperature = celsius(response["main"]["temp"])
+        feels_like = celsius(response["main"]["feels_like"])
+        wind_speed = response["wind"]["speed"]
+        humidity = response["main"]["humidity"]
+        description = response["weather"][0]["description"]
+        sunrise_time = dt.datetime.fromtimestamp(response["sys"]["sunrise"])
+        sunset_time = dt.datetime.fromtimestamp(response["sys"]["sunset"])
+        
+    except:
+        app.show_error("Invalid City Name")
+    
     # Display weather information
     app.weather_page.temp_label.configure(text=f"Temperature: {temperature}°C")
     app.weather_page.feels_like_label.configure(text=f"Feels Like: {feels_like}°C")
@@ -49,7 +50,7 @@ def get_weather(app):
     if temperature > 20:
         sunscreen = "Yes"
 
-    if humidity < 50:
+    if humidity > 50:
         coat = "Yes"
 
     if description == "clear sky":
