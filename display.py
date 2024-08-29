@@ -115,7 +115,6 @@ class App(ctk.CTk):
         # Set the window up
         super().__init__()
         self.title("Weather App")
-        self.geometry("500x350")
 
         # Create the pages
         self.intro_page = IntroPage(self)
